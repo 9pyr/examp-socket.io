@@ -4,7 +4,7 @@ import { constantValue } from 'helpers/constant'
 
 const { event_emit } = constantValue
 
-const socket = io(process.env.NEXT_PUBLIC_BASE_URL)
+const socket = io()
 
 export const joinSocket = (room) => {
   console.log('Joining socket...', room)

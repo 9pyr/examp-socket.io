@@ -4,7 +4,7 @@ import { constantValue } from 'helpers/constant'
 
 const { event_emit } = constantValue
 
-const socket = io()
+const socket = io('https://novm.netlify.app')
 
 export const joinSocket = (room) => {
   console.log('Joining socket...', room)

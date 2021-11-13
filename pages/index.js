@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { Container, ListHorizontal, Button } from 'components/styles/styles.js'
 
 const HomePage = () => {
-  console.log('test commint')
   return (
     <Container>
       <div>Select user:</div>

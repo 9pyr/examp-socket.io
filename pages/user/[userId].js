@@ -24,6 +24,7 @@ const UserPage = (props) => {
       } else {
         joinSocket(values.building)
       }
+      getBuilding(values.building)
     }
 
     handleValues('room', {})

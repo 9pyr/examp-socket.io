@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Container, ListHorizontal, Button } from 'components/styles/styles.js'
 
 const HomePage = () => {
+  console.log('🔥 start: ', process.env.NEXT_PUBLIC_BASE_URL)
   return (
     <Container>
       <div>Select user:</div>

@@ -6,7 +6,7 @@ const { event_emit } = constantValue || {}
 const cache = {}
 export default function handler(req, res) {
   if (!res.socket.server.io) {
-    const io = new Server(res.socket.server)
+    const io = new Server(res.socket.server, { path: '/api/socket' })
 
     io.on('connection', (socket) => {
       console.log(`🔥 => Connected: ${socket.id}`)

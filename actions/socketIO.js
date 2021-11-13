@@ -27,14 +27,11 @@ export const disconnectSocket = () => {
 export const sendValue = async (callback) => {
   if (!socket) return true
 
-  socket.on(event_emit, (data) => {
-    return callback(null, data)
+  await socketApi().then(() => {
+    socket.on(event_emit, (data) => {
+      return callback(null, data)
+    })
   })
-  // await socketApi().then(() => {
-  //   socket.on(event_emit, (data) => {
-  //     return callback(null, data)
-  //   })
-  // })
 }
 
 export const selectRoom = (building, room) => {

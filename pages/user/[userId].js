@@ -1,11 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { Container, ListHorizontal, Button } from 'components/styles/styles.js'
 import { joinSocket, disconnectSocket, selectRoom, sendValue, getBuilding, switchRooms } from 'actions/socketIO'
 
-const UserPage = (props) => {
+const UserRender = (props) => {
   const { userId } = props
-  const prevRoom = useRef()
-  const [values, setValues] = useState(initialValue)
+
+  const prevRoom = localStorage.getItem(userId)
+  const [values, setValues] = useState({ building: localStorage.getItem(userId) || buildingValue[0].value })
+
+  console.log('prevRoom => ', prevRoom)
+  console.log('values => ', values)
+   console.log('localStorage => ', localStorage.getItem(userId))
 
   const handleValues = (event, $value) => {
     if (typeof event === 'object' && !Array.isArray(event)) {
@@ -18,12 +24,13 @@ const UserPage = (props) => {
 
   useEffect(() => {
     if (values.building) {
-      if (prevRoom.current) {
-        console.log({ prevRoom: prevRoom.current, nextRoom: values.building })
-        switchRooms(prevRoom.current, values.building)
+      if (prevRoom) {
+        console.log({ prevRoom: prevRoom, nextRoom: values.building })
+        switchRooms(prevRoom, values.building)
       } else {
         joinSocket(values.building)
       }
+      localStorage.setItem(userId, values.building)
       getBuilding(values.building)
     }
 
@@ -49,9 +56,9 @@ const UserPage = (props) => {
         อาคาร:{' '}
         <select
           name='building'
+          value={values.building}
           onChange={(event) => {
             console.log('🔥 select')
-            prevRoom.current = values.building
             handleValues(event)
           }}
         >
@@ -88,6 +95,8 @@ const UserPage = (props) => {
   )
 }
 
+const UserPage = dynamic(() => Promise.resolve(UserRender), { ssr: false })
+
 UserPage.getInitialProps = async (ctx) => {
   const { userId } = ctx.query || {}
   return { userId }
@@ -101,4 +110,3 @@ const buildingValue = [
   { label: 'เรียนรวม 2', value: 's2' },
   { label: 'เรียนรวม 3', value: 's3' },
 ]
-const initialValue = { building: buildingValue[0].value }
